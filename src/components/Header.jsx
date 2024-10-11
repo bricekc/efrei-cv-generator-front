@@ -40,10 +40,10 @@ function Header() {
           All CV&apos;s
         </Link>
         <Link
-          to="/settings"
-          className="text-foreground transition-colors hover:text-foreground"
+          to="/mycv"
+          className="text-foreground transition-colors hover:text-foreground whitespace-nowrap"
         >
-          Settings
+          My CV
         </Link>
       </nav>
       <Sheet>
@@ -68,8 +68,8 @@ function Header() {
             >
               All CV&apos;s
             </Link>
-            <Link to="/settings" className="hover:text-foreground">
-              Settings
+            <Link to="/mycv" className="hover:text-foreground whitespace-nowrap">
+              My CV
             </Link>
           </nav>
         </SheetContent>
@@ -86,8 +86,8 @@ function Header() {
             <DropdownMenuContent align="end">
               <DropdownMenuLabel>My Account</DropdownMenuLabel>
               <DropdownMenuSeparator />
-              <Link to='/settings'>
-                <DropdownMenuItem>Settings</DropdownMenuItem>
+              <Link to='/mycv' className="whitespace-nowrap">
+                <DropdownMenuItem>My CV</DropdownMenuItem>
               </Link>
               <DropdownMenuSeparator />
               {token ? (

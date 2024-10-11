@@ -9,12 +9,11 @@ const VITE_BACK_URL = import.meta.env.VITE_BACK_URL || "http://localhost:3000/ap
 function CVDetails() {
   const [cvData, setCvData] = useState([])
   const { id } = useParams();
-  console.log(id)
 
   useEffect(() => {
     async function getCvs() {
       try {
-        const response = await fetch(`${VITE_BACK_URL}/cv/`);
+        const response = await fetch(`${VITE_BACK_URL}/cv/${id}`);
 
         if (!response.ok) {
         throw new Error("Failed to cv");
@@ -28,7 +27,18 @@ function CVDetails() {
       }
     } 
     getCvs()
-  },[])
+  },[id])
+
+  function formatDate(dateString) {
+    const date = new Date(dateString);
+    const day = String(date.getDate()).padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const year = date.getFullYear();
+    
+    return `${day}/${month}/${year}`;
+  }
+  
+
   return (
     <div className="p-6 lg:p-12 max-w-5xl mx-auto">
       {/* User Info Section */}
@@ -40,7 +50,7 @@ function CVDetails() {
         </CardHeader>
         <CardContent>
           <p className="text-gray-700 text-lg mb-4">{cvData.description}</p>
-          <p className="text-gray-500">Email: {cvData?.email}</p>
+          <p className="text-gray-500">Email: {cvData?.user.email}</p>
         </CardContent>
       </Card>
 
@@ -54,7 +64,7 @@ function CVDetails() {
             <CardHeader>
               <CardTitle className="text-xl font-semibold">{education.name}</CardTitle>
               <CardDescription className="text-gray-500">
-                {education.start_date} - {education.end_date}
+              {formatDate(education.startDate)} - {education.endDate ? formatDate(education.endDate) : "Present"}
               </CardDescription>
             </CardHeader>
             <CardContent>
@@ -74,7 +84,7 @@ function CVDetails() {
             <CardHeader>
               <CardTitle className="text-xl font-semibold">{experience.name}</CardTitle>
               <CardDescription className="text-gray-500">
-                {experience.start_date} - {experience.end_date ? experience.end_date : "Present"}
+              {formatDate(experience.startDate)} - {experience.endDate ? formatDate(experience.endDate) : "Present"}
               </CardDescription>
             </CardHeader>
             <CardContent>
