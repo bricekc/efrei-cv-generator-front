@@ -1,4 +1,3 @@
-import React from "react";
 import { Card, CardHeader, CardTitle, CardContent, CardDescription } from "@/components/ui/card";
 import { Link } from "react-router-dom";
 
@@ -106,6 +105,8 @@ const fakeCVsData = [
 ];
 
 function AllCVs() {
+  
+
   return (
     <div className="grid gap-4 p-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
       {fakeCVsData.map((data, index) => (
