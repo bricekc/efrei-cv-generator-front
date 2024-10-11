@@ -1,5 +1,4 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { CircleUser, FileUser, Menu } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -11,8 +10,19 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { useState } from "react";
 
 function Header() {
+  const [token, setToken] = useState(localStorage.getItem('token'));
+  const navigate = useNavigate()
+
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    navigate('/login')
+    setToken(null);
+    window.location.reload();
+  };
+
   return (
     <header className="sticky top-0 flex h-16 items-center gap-4 border-b bg-background px-4 md:px-6 bg-white">
       <nav className="hidden flex-col gap-6 text-lg font-medium md:flex md:flex-row md:items-center md:gap-5 md:text-sm lg:gap-6">
@@ -27,7 +37,7 @@ function Header() {
           to="/allcvs"
           className="text-muted-foreground transition-colors hover:text-foreground whitespace-nowrap"
         >
-          All CV's
+          All CV&apos;s
         </Link>
         <Link
           to="/settings"
@@ -56,7 +66,7 @@ function Header() {
               to="/allcvs"
               className="text-muted-foreground hover:text-foreground whitespace-nowrap"
             >
-              All CV's
+              All CV&apos;s
             </Link>
             <Link to="/settings" className="hover:text-foreground">
               Settings
@@ -80,9 +90,13 @@ function Header() {
                 <DropdownMenuItem>Settings</DropdownMenuItem>
               </Link>
               <DropdownMenuSeparator />
-              <Link to='/login'>
-                <DropdownMenuItem>{true ? 'Login' : "Logout"}</DropdownMenuItem>
-              </Link>
+              {token ? (
+                <DropdownMenuItem onClick={handleLogout}>Logout</DropdownMenuItem>
+              ) : (
+                <Link to='/login'>
+                  <DropdownMenuItem>Login</DropdownMenuItem>
+                </Link>
+              )}
             </DropdownMenuContent>
           </DropdownMenu>
         </div>

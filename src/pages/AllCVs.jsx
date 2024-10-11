@@ -2,7 +2,7 @@ import { Card, CardHeader, CardTitle, CardContent, CardDescription } from "@/com
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
-const VITE_BACK_URL = import.meta.env.VITE_VITE_BACK_URL || "http://localhost:3000/api";
+const VITE_BACK_URL = import.meta.env.VITE_BACK_URL || "http://localhost:3000/api";
 
 function AllCVs() {
   const [cvsData, setCvsData] = useState([])

@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Link, useNavigate } from "react-router-dom";
 
-const VITE_BACK_URL = import.meta.env.VITE_VITE_BACK_URL || "http://localhost:3000/api";
+const VITE_BACK_URL = import.meta.env.VITE_BACK_URL || "http://localhost:3000/api";
 
 const SignUp = () => {
   const navigate = useNavigate();
