@@ -29,13 +29,13 @@ function AllCVs() {
   return (
     <div className="grid gap-4 p-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
       {cvsData.map((data, index) => (
-        <Link key={index} to={`/cv/${data._id}`}>
+        <Link key={index} to={`/cv/${data?._id}`}>
           <Card className="hover:shadow-lg">
             <CardHeader>
-              <CardTitle>{data.user.firstname} {data.name}</CardTitle>
+              <CardTitle>{data?.user?.firstname} {data?.name}</CardTitle>
             </CardHeader>
             <CardContent>
-              <CardDescription className="line-clamp-2">{data.description}</CardDescription>
+              <CardDescription className="line-clamp-2">{data?.description}</CardDescription>
             </CardContent>
           </Card>
         </Link>

@@ -10,18 +10,35 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { useState } from "react";
+import {useContext, useEffect, useState} from "react";
+import {UserContext} from "@/context/UserContext.jsx";
 
 function Header() {
-  const [token, setToken] = useState(localStorage.getItem('token'));
+  const { user, logout } = useContext(UserContext);
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate()
-
   const handleLogout = () => {
-    localStorage.removeItem('token');
+    logout();
     navigate('/login')
-    setToken(null);
     window.location.reload();
   };
+
+  useEffect(() => {
+    const loadBack = async () => {
+        setLoading(true);
+        try {
+            const response = await fetch(`${import.meta.env.VITE_BACK_URL}/cv`);
+            if (!response.ok) {
+            throw new Error("Failed to cv");
+            }
+          console.log("Backend loaded:");
+        } catch (error) {
+          console.error("Backend not loaded:", error);
+        }
+        setLoading(false);
+    }
+    loadBack();
+  }, []);
 
   return (
     <header className="sticky top-0 flex h-16 items-center gap-4 border-b bg-background px-4 md:px-6 bg-white">
@@ -39,12 +56,17 @@ function Header() {
         >
           All CV&apos;s
         </Link>
-        <Link
-          to="/mycv"
-          className="text-foreground transition-colors hover:text-foreground whitespace-nowrap"
-        >
-          My CV
-        </Link>
+        {
+          user && (
+                <Link
+                    to="/mycv"
+                    className="text-foreground transition-colors hover:text-foreground whitespace-nowrap"
+                >
+                  My CV
+                </Link>
+            )
+        }
+        { loading && <span>The backend is starting up...</span> }
       </nav>
       <Sheet>
         <SheetTrigger asChild>
@@ -68,9 +90,13 @@ function Header() {
             >
               All CV&apos;s
             </Link>
-            <Link to="/mycv" className="hover:text-foreground whitespace-nowrap">
-              My CV
-            </Link>
+            {
+              user && (
+                <Link to="/mycv" className="hover:text-foreground whitespace-nowrap">
+                  My CV
+                </Link>
+              )
+            }
           </nav>
         </SheetContent>
       </Sheet>
@@ -90,7 +116,7 @@ function Header() {
                 <DropdownMenuItem>My CV</DropdownMenuItem>
               </Link>
               <DropdownMenuSeparator />
-              {token ? (
+              {user ? (
                 <DropdownMenuItem onClick={handleLogout}>Logout</DropdownMenuItem>
               ) : (
                 <Link to='/login'>

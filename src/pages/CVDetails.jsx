@@ -1,8 +1,8 @@
 import { Card, CardHeader, CardTitle, CardContent, CardDescription } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import Reviews from "@/components/Reviews.jsx";
 
 const VITE_BACK_URL = import.meta.env.VITE_BACK_URL || "http://localhost:3000/api";
 
@@ -97,29 +97,7 @@ function CVDetails() {
       <Separator className="my-8" />
 
       {/* Recommendations Section */}
-      <div className="mb-8">
-        <h2 className="text-2xl font-semibold mb-4">Recommendations</h2>
-        {cvData?.recommandations?.length > 0 ? (
-          cvData?.recommandations?.map((recommendation, index) => (
-            <Card key={index} className="mb-4">
-              <CardHeader>
-                <CardTitle className="text-xl font-semibold">Recommendation {index + 1}</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p>{recommendation.texte}</p>
-                <div className="flex items-center mt-2">
-                  <Badge variant="outline" className="mr-2">
-                    Rating: {recommendation.avis}/5
-                  </Badge>
-                  <p className="text-gray-500">Author ID: {recommendation.auteur_id}</p>
-                </div>
-              </CardContent>
-            </Card>
-          ))
-        ) : (
-          <p>No recommendations available.</p>
-        )}
-      </div>
+      <Reviews reviews={cvData?.reviews} idCv={id} />
     </div>
   );
 }

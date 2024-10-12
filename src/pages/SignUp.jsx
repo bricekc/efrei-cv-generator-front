@@ -4,11 +4,13 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Link, useNavigate } from "react-router-dom";
-
-const VITE_BACK_URL = import.meta.env.VITE_BACK_URL || "http://localhost:3000/api";
+import {useContext, useState} from "react";
+import {UserContext} from "@/context/UserContext.jsx";
 
 const SignUp = () => {
   const navigate = useNavigate();
+  const { register } = useContext(UserContext);
+  const [errorMessage, setErrorMessage] = useState("");
 
   const formik = useFormik({
     initialValues: {
@@ -30,20 +32,11 @@ const SignUp = () => {
     }),
     onSubmit: async (values) => {
       try {
-        const response = await fetch(`${VITE_BACK_URL}/auth/register`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(values),
-        });
-
-        if (!response.ok) {
+        const res = await register(values);
+        if (res !== 200) {
+          setErrorMessage("An unexpected error occurred. Please try again later.");
           throw new Error("Failed to sign up");
         }
-
-        const data = await response.json();
-        console.log("Sign up successful:", data);
         navigate("/login")
       } catch (error) {
         console.error("Sign up error:", error);
@@ -69,6 +62,7 @@ const SignUp = () => {
               Enter your email and name below to sign up to your account
             </p>
           </div>
+          {errorMessage && <div className="text-red-500 text-sm">{errorMessage}</div>}
           <form onSubmit={formik.handleSubmit} className="grid gap-4">
             <div className="grid gap-2">
               <Label htmlFor="firstname">First name</Label>

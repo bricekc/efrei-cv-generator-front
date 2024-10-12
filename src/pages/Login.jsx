@@ -4,12 +4,14 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Link, useNavigate } from "react-router-dom";
+import {useContext, useState} from "react";
+import {UserContext} from "@/context/UserContext.jsx";
 
-const VITE_BACK_URL = import.meta.env.VITE_BACK_URL || "http://localhost:3000/api";
 
 const Login = () => {
   const navigate = useNavigate()
-
+  const { login } = useContext(UserContext)
+  const [errorMessage, setErrorMessage] = useState("");
   const formik = useFormik({
     initialValues: {
       email: "",
@@ -20,26 +22,20 @@ const Login = () => {
       password: Yup.string().min(6, "Password must be at least 6 characters").required("Required"),
     }),
     onSubmit: async (values) => {
-      try {
-        const response = await fetch(`${VITE_BACK_URL}/auth/login`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(values),
-        });
-
-        if (!response.ok) {
-          throw new Error("Failed to login");
+        try {
+            const res = await login(values)
+            if (res !== 200) {
+                if (res === 400) {
+                    setErrorMessage("Invalid credentials. Please try again.");
+                } else {
+                    setErrorMessage("An unexpected error occurred. Please try again later.");
+                }
+                throw new Error("Failed to login");
+            }
+            navigate('/allcvs')
+        } catch (error) {
+            console.error("Login error:", error);
         }
-
-        const data = await response.json();
-        console.log("Login successful:", data);
-        localStorage.setItem('token', data.user.token)
-        navigate("/allcvs")
-      } catch (error) {
-        console.error("Login error:", error);
-      }
     },
   });
 
@@ -53,7 +49,8 @@ const Login = () => {
               Enter your email below to login to your account
             </p>
           </div>
-          <form onSubmit={formik.handleSubmit} className="grid gap-4">
+            {errorMessage && <div className="text-red-500 text-sm">{errorMessage}</div>}
+            <form onSubmit={formik.handleSubmit} className="grid gap-4">
             <div className="grid gap-2">
               <Label htmlFor="email">Email</Label>
               <Input
