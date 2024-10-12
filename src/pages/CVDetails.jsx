@@ -50,7 +50,7 @@ function CVDetails() {
         </CardHeader>
         <CardContent>
           <p className="text-gray-700 text-lg mb-4">{cvData.description}</p>
-          <p className="text-gray-500">Email: {cvData?.user.email}</p>
+          <p className="text-gray-500">Email: {cvData?.user?.email}</p>
         </CardContent>
       </Card>
 
@@ -62,13 +62,13 @@ function CVDetails() {
         {cvData?.educationalExperiences?.map((education, index) => (
           <Card key={index} className="mb-4">
             <CardHeader>
-              <CardTitle className="text-xl font-semibold">{education.name}</CardTitle>
+              <CardTitle className="text-xl font-semibold">{education?.name}</CardTitle>
               <CardDescription className="text-gray-500">
-              {formatDate(education.startDate)} - {education.endDate ? formatDate(education.endDate) : "Present"}
+              {formatDate(education?.startDate)} - {education?.endDate ? formatDate(education?.endDate) : "Present"}
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <p>{education.description}</p>
+              <p>{education?.description}</p>
             </CardContent>
           </Card>
         ))}
@@ -82,13 +82,13 @@ function CVDetails() {
         {cvData?.professionalExperiences?.map((experience, index) => (
           <Card key={index} className="mb-4">
             <CardHeader>
-              <CardTitle className="text-xl font-semibold">{experience.name}</CardTitle>
+              <CardTitle className="text-xl font-semibold">{experience?.name}</CardTitle>
               <CardDescription className="text-gray-500">
-              {formatDate(experience.startDate)} - {experience.endDate ? formatDate(experience.endDate) : "Present"}
+              {formatDate(experience?.startDate)} - {experience?.endDate ? formatDate(experience?.endDate) : "Present"}
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <p>{experience.description}</p>
+              <p>{experience?.description}</p>
             </CardContent>
           </Card>
         ))}
