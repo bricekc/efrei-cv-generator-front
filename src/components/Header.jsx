@@ -1,6 +1,6 @@
-import { Link, useNavigate } from "react-router-dom";
-import { CircleUser, FileUser, Menu } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { Link, useNavigate } from 'react-router-dom';
+import { CircleUser, FileUser, Menu } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -8,35 +8,35 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import {useContext, useEffect, useState} from "react";
-import {UserContext} from "@/context/UserContext.jsx";
+} from '@/components/ui/dropdown-menu';
+import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
+import { useContext, useEffect, useState } from 'react';
+import { UserContext } from '@/context/UserContext.jsx';
 
 function Header() {
   const { user, logout } = useContext(UserContext);
   const [loading, setLoading] = useState(false);
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const handleLogout = () => {
     logout();
-    navigate('/login')
+    navigate('/login');
     window.location.reload();
   };
 
   useEffect(() => {
     const loadBack = async () => {
-        setLoading(true);
-        try {
-            const response = await fetch(`${import.meta.env.VITE_BACK_URL}/cv`);
-            if (!response.ok) {
-            throw new Error("Failed to cv");
-            }
-          console.log("Backend loaded:");
-        } catch (error) {
-          console.error("Backend not loaded:", error);
+      setLoading(true);
+      try {
+        const response = await fetch(`${import.meta.env.VITE_BACK_URL}/cv`);
+        if (!response.ok) {
+          throw new Error('Failed to cv');
         }
-        setLoading(false);
-    }
+        console.log('Backend loaded:');
+      } catch (error) {
+        console.error('Backend not loaded:', error);
+      }
+      setLoading(false);
+    };
     loadBack();
   }, []);
 
@@ -56,17 +56,15 @@ function Header() {
         >
           All CV&apos;s
         </Link>
-        {
-          user && (
-                <Link
-                    to="/mycv"
-                    className="text-foreground transition-colors hover:text-foreground whitespace-nowrap"
-                >
-                  My CV
-                </Link>
-            )
-        }
-        { loading && <span>The backend is starting up...</span> }
+        {user && (
+          <Link
+            to="/mycv"
+            className="text-foreground transition-colors hover:text-foreground whitespace-nowrap"
+          >
+            My CV
+          </Link>
+        )}
+        {loading && <span>The backend is starting up...</span>}
       </nav>
       <Sheet>
         <SheetTrigger asChild>
@@ -90,13 +88,14 @@ function Header() {
             >
               All CV&apos;s
             </Link>
-            {
-              user && (
-                <Link to="/mycv" className="hover:text-foreground whitespace-nowrap">
-                  My CV
-                </Link>
-              )
-            }
+            {user && (
+              <Link
+                to="/mycv"
+                className="hover:text-foreground whitespace-nowrap"
+              >
+                My CV
+              </Link>
+            )}
           </nav>
         </SheetContent>
       </Sheet>
@@ -112,14 +111,16 @@ function Header() {
             <DropdownMenuContent align="end">
               <DropdownMenuLabel>My Account</DropdownMenuLabel>
               <DropdownMenuSeparator />
-              <Link to='/mycv' className="whitespace-nowrap">
+              <Link to="/mycv" className="whitespace-nowrap">
                 <DropdownMenuItem>My CV</DropdownMenuItem>
               </Link>
               <DropdownMenuSeparator />
               {user ? (
-                <DropdownMenuItem onClick={handleLogout}>Logout</DropdownMenuItem>
+                <DropdownMenuItem onClick={handleLogout}>
+                  Logout
+                </DropdownMenuItem>
               ) : (
-                <Link to='/login'>
+                <Link to="/login">
                   <DropdownMenuItem>Login</DropdownMenuItem>
                 </Link>
               )}
