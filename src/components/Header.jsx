@@ -5,8 +5,6 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
@@ -110,12 +108,6 @@ function Header() {
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
-              <DropdownMenuLabel>My Account</DropdownMenuLabel>
-              <DropdownMenuSeparator />
-              <Link to="/mycv" className="whitespace-nowrap">
-                <DropdownMenuItem>My CV</DropdownMenuItem>
-              </Link>
-              <DropdownMenuSeparator />
               {user ? (
                 <DropdownMenuItem onClick={handleLogout}>
                   Logout

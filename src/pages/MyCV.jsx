@@ -202,6 +202,7 @@ function MyCV() {
             if (!response.ok) {
               throw new Error('Failed to save CV');
             }
+            toast.success('CV save');
             navigate('/allcvs');
           } catch (error) {
             setErrorMessage('An error occurred while saving CV.');

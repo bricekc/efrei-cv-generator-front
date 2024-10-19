@@ -38,6 +38,7 @@ const Login = () => {
           throw new Error('Failed to login');
         }
         navigate('/allcvs');
+        toast.success('Login successfull');
       } catch (error) {
         toast.error('Login error:', error);
       }

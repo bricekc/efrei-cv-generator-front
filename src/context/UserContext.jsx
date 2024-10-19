@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import { createContext, useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -12,6 +12,7 @@ const VITE_BACK_URL =
 const UserProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
     const getUser = async () => {
@@ -27,8 +28,11 @@ const UserProvider = ({ children }) => {
         });
         const data = await response.json();
         if (data?.message?.name === 'TokenExpiredError') {
+          toast.error('Please reconnect as your session is not good anymore.');
           localStorage.removeItem('token');
-          navigate('/');
+          if (location.pathname === '/mycv') {
+            navigate('/login');
+          }
         } else if (!response.ok) {
           throw new Error('Failed to get user');
         } else {
@@ -39,7 +43,7 @@ const UserProvider = ({ children }) => {
       }
     };
     getUser();
-  }, [navigate]);
+  }, [navigate, location]);
 
   const register = async (user) => {
     try {
