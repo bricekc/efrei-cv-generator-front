@@ -6,6 +6,8 @@ import { Label } from '@/components/ui/label';
 import { Link, useNavigate } from 'react-router-dom';
 import { useContext, useState } from 'react';
 import { UserContext } from '@/context/UserContext.jsx';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const SignUp = () => {
   const navigate = useNavigate();
@@ -47,7 +49,7 @@ const SignUp = () => {
         }
         navigate('/login');
       } catch (error) {
-        console.error('Sign up error:', error);
+        toast.error('Sign up error:', error);
       }
     },
   });

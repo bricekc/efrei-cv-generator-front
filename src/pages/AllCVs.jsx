@@ -5,13 +5,17 @@ import {
   CardContent,
   CardDescription,
 } from '@/components/ui/card';
-import { useEffect, useState } from 'react';
+import { UserContext } from '@/context/UserContext';
+import { useContext, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const VITE_BACK_URL =
   import.meta.env.VITE_BACK_URL || 'http://localhost:3000/api';
 
 function AllCVs() {
+  const { user } = useContext(UserContext);
   const [cvsData, setCvsData] = useState([]);
 
   useEffect(() => {
@@ -24,10 +28,9 @@ function AllCVs() {
         }
 
         const data = await response.json();
-        console.log('Cv successful:', data);
-        setCvsData(data);
+        setCvsData(data.filter((data) => data.user._id !== user.id));
       } catch (error) {
-        console.error('Cv error:', error);
+        toast.error('Cv error:', error);
       }
     }
     getCvs();

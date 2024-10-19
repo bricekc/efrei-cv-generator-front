@@ -1,12 +1,15 @@
 import { useState, useEffect, useContext } from 'react';
-import { Formik, Field, FieldArray, ErrorMessage } from 'formik';
+import { Formik, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useNavigate } from 'react-router-dom';
 import { UserContext } from '@/context/UserContext';
-import { Card } from '@/components/ui/card';
+import { Separator } from '@/components/ui/separator';
+import ExperiencesDetails from '@/components/ExperiencesDetails';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 // URL backend
 const VITE_BACK_URL =
@@ -109,7 +112,7 @@ function MyCV() {
         }
       } catch (error) {
         setErrorMessage('An error occurred while fetching CV.');
-        console.log(error);
+        toast.error(error);
       } finally {
         setLoading(false);
       }
@@ -144,7 +147,7 @@ function MyCV() {
       navigate('/allcvs');
     } catch (error) {
       setErrorMessage('An error occurred while deleting CV.');
-      console.log(error);
+      toast.error(error);
     }
   };
 
@@ -202,7 +205,7 @@ function MyCV() {
             navigate('/allcvs');
           } catch (error) {
             setErrorMessage('An error occurred while saving CV.');
-            console.log(error);
+            toast.error(error);
           } finally {
             setSubmitting(false);
           }
@@ -228,9 +231,9 @@ function MyCV() {
                 className="text-red-500"
               />
             </div>
-            <div className="grid gap-2">
+            <div className="flex items-center space-x-2">
               <Label htmlFor="isPublic">Public</Label>
-              <Field type="checkbox" name="isPublic" />
+              <Field type="checkbox" name="isPublic" className="h-4 w-4" />
               <ErrorMessage
                 name="isPublic"
                 component="div"
@@ -238,183 +241,25 @@ function MyCV() {
               />
             </div>
 
-            <h2 className="text-3xl font-semibold mt-10">
-              Educational Experiences
-            </h2>
-            <FieldArray name="educationalExperiences">
-              {({ remove, push }) => (
-                <>
-                  {values.educationalExperiences.map((_, index) => (
-                    <Card key={index} className="grid gap-2 mb-4 p-4">
-                      <Label htmlFor={`educationalExperiences[${index}].name`}>
-                        Name
-                      </Label>
-                      <Field
-                        as={Input}
-                        name={`educationalExperiences[${index}].name`}
-                      />
-                      <ErrorMessage
-                        name={`educationalExperiences[${index}].name`}
-                        component="div"
-                        className="text-red-500"
-                      />
-                      <Label
-                        htmlFor={`educationalExperiences[${index}].description`}
-                      >
-                        Description
-                      </Label>
-                      <Field
-                        as={Input}
-                        name={`educationalExperiences[${index}].description`}
-                      />
-                      <ErrorMessage
-                        name={`educationalExperiences[${index}].description`}
-                        component="div"
-                        className="text-red-500"
-                      />
-                      <Label
-                        htmlFor={`educationalExperiences[${index}].startDate`}
-                      >
-                        Start Date
-                      </Label>
-                      <Field
-                        type="date"
-                        name={`educationalExperiences[${index}].startDate`}
-                      />
-                      <ErrorMessage
-                        name={`educationalExperiences[${index}].startDate`}
-                        component="div"
-                        className="text-red-500"
-                      />
-                      <Label
-                        htmlFor={`educationalExperiences[${index}].endDate`}
-                      >
-                        End Date
-                      </Label>
-                      <Field
-                        type="date"
-                        name={`educationalExperiences[${index}].endDate`}
-                      />
-                      <ErrorMessage
-                        name={`educationalExperiences[${index}].endDate`}
-                        component="div"
-                        className="text-red-500"
-                      />
-                      <Button
-                        variant="destructive"
-                        className="mt-4"
-                        type="button"
-                        onClick={() => remove(index)}
-                      >
-                        Delete Education
-                      </Button>
-                    </Card>
-                  ))}
-                  <Button
-                    type="button"
-                    onClick={() =>
-                      push({
-                        name: '',
-                        description: '',
-                        startDate: '',
-                        endDate: '',
-                      })
-                    }
-                  >
-                    Add Education
-                  </Button>
-                </>
-              )}
-            </FieldArray>
+            <Separator className="my-8" />
 
-            <h2 className="text-3xl font-semibold mt-10">
-              Professional Experiences
-            </h2>
-            <FieldArray name="professionalExperiences">
-              {({ remove, push }) => (
-                <>
-                  {values.professionalExperiences.map((_, index) => (
-                    <Card key={index} className="grid gap-2 mb-4 p-4">
-                      <Label htmlFor={`professionalExperiences[${index}].name`}>
-                        Name
-                      </Label>
-                      <Field
-                        as={Input}
-                        name={`professionalExperiences[${index}].name`}
-                      />
-                      <ErrorMessage
-                        name={`professionalExperiences[${index}].name`}
-                        component="div"
-                        className="text-red-500"
-                      />
-                      <Label
-                        htmlFor={`professionalExperiences[${index}].description`}
-                      >
-                        Description
-                      </Label>
-                      <Field
-                        as={Input}
-                        name={`professionalExperiences[${index}].description`}
-                      />
-                      <ErrorMessage
-                        name={`professionalExperiences[${index}].description`}
-                        component="div"
-                        className="text-red-500"
-                      />
-                      <Label
-                        htmlFor={`professionalExperiences[${index}].startDate`}
-                      >
-                        Start Date
-                      </Label>
-                      <Field
-                        type="date"
-                        name={`professionalExperiences[${index}].startDate`}
-                      />
-                      <ErrorMessage
-                        name={`professionalExperiences[${index}].startDate`}
-                        component="div"
-                        className="text-red-500"
-                      />
-                      <Label
-                        htmlFor={`professionalExperiences[${index}].endDate`}
-                      >
-                        End Date
-                      </Label>
-                      <Field
-                        type="date"
-                        name={`professionalExperiences[${index}].endDate`}
-                      />
-                      <ErrorMessage
-                        name={`professionalExperiences[${index}].endDate`}
-                        component="div"
-                        className="text-red-500"
-                      />
-                      <Button
-                        variant="destructive"
-                        className="mt-4"
-                        type="button"
-                        onClick={() => remove(index)}
-                      >
-                        Delete Experience
-                      </Button>
-                    </Card>
-                  ))}
-                  <Button
-                    type="button"
-                    onClick={() =>
-                      push({
-                        name: '',
-                        description: '',
-                        startDate: '',
-                        endDate: '',
-                      })
-                    }
-                  >
-                    Add Experience
-                  </Button>
-                </>
-              )}
-            </FieldArray>
+            <ExperiencesDetails
+              Input={Input}
+              title="Educational Experiences"
+              values={values.educationalExperiences}
+              buttonText="Education"
+            />
+
+            <Separator className="my-8" />
+
+            <ExperiencesDetails
+              Input={Input}
+              title="Professional Experiences"
+              values={values.professionalExperiences}
+              buttonText="Experience"
+            />
+
+            <Separator className="my-8" />
 
             <Button type="submit" disabled={isSubmitting}>
               {isSubmitting ? 'Saving...' : 'Save CV'}

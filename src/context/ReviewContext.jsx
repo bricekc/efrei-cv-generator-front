@@ -1,5 +1,7 @@
 import PropTypes from 'prop-types';
 import { createContext } from 'react';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const ReviewContext = createContext(null);
 
@@ -27,10 +29,9 @@ const ReviewProvider = ({ children }) => {
       }
 
       const data = await response.json();
-      console.log('Review added:', data);
       return data;
     } catch (error) {
-      console.error('Add review error:', error);
+      toast.error('Add review error:', error);
     }
   };
   return (

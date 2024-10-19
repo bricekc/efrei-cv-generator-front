@@ -1,6 +1,8 @@
 import PropTypes from 'prop-types';
 import { createContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const UserContext = createContext(null);
 
@@ -23,7 +25,6 @@ const UserProvider = ({ children }) => {
             Authorization: `Bearer ${token}`,
           },
         });
-        console.log('ça va la');
         const data = await response.json();
         if (data?.message?.name === 'TokenExpiredError') {
           localStorage.removeItem('token');
@@ -31,11 +32,10 @@ const UserProvider = ({ children }) => {
         } else if (!response.ok) {
           throw new Error('Failed to get user');
         } else {
-          console.log('User fetched:', data);
           setUser(data);
         }
       } catch (error) {
-        console.error('Get user error:', error);
+        toast.error('Get user error:', error);
       }
     };
     getUser();
@@ -55,11 +55,9 @@ const UserProvider = ({ children }) => {
         throw new Error('Failed to sign up');
       }
 
-      const data = await response.json();
-      console.log('Sign up successful:', data);
       return response.status;
     } catch (error) {
-      console.error('Sign up error:', error);
+      toast.error('Sign up error:', error);
     }
   };
 
@@ -78,12 +76,11 @@ const UserProvider = ({ children }) => {
       }
 
       const data = await response.json();
-      console.log('Login successful:', data);
       setUser(data.user);
       localStorage.setItem('token', data.user.token);
       return response.status;
     } catch (error) {
-      console.error('Login error:', error);
+      toast.error('Login error:', error);
     }
   };
 

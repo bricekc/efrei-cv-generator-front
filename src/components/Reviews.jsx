@@ -14,6 +14,8 @@ import { Input } from '@/components/ui/input.jsx';
 import { useContext, useState } from 'react';
 import { ReviewContext } from '@/context/ReviewContext.jsx';
 import { UserContext } from '@/context/UserContext.jsx';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 Reviews.propTypes = {
   reviews: PropTypes.array,
@@ -51,7 +53,7 @@ function Reviews({ reviews, idCv }) {
           throw new Error('Failed to add review');
         }
       } catch (error) {
-        console.error('Add review error:', error);
+        toast.error('Add review error:', error);
       }
     },
   });

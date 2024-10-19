@@ -12,6 +12,8 @@ import {
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { useContext, useEffect, useState } from 'react';
 import { UserContext } from '@/context/UserContext.jsx';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function Header() {
   const { user, logout } = useContext(UserContext);
@@ -31,9 +33,8 @@ function Header() {
         if (!response.ok) {
           throw new Error('Failed to cv');
         }
-        console.log('Backend loaded:');
       } catch (error) {
-        console.error('Backend not loaded:', error);
+        toast.error('Backend not loaded:', error);
       }
       setLoading(false);
     };

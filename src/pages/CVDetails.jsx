@@ -9,6 +9,8 @@ import { Separator } from '@/components/ui/separator';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import Reviews from '@/components/Reviews.jsx';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const VITE_BACK_URL =
   import.meta.env.VITE_BACK_URL || 'http://localhost:3000/api';
@@ -27,10 +29,9 @@ function CVDetails() {
         }
 
         const data = await response.json();
-        console.log('Cv successful:', data);
         setCvData(data);
       } catch (error) {
-        console.error('Cv error:', error);
+        toast.error('Cv error:', error);
       }
     }
     getCvs();
