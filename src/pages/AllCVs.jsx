@@ -31,7 +31,7 @@ function AllCVs() {
         }
 
         const data = await response.json();
-        const filteredData = data.filter((cv) => cv.user._id !== user.id);
+        const filteredData = data.filter((cv) => cv?.user?._id !== user?.id);
         setCvsData(filteredData);
         setFilteredCVs(filteredData);
       } catch (error) {
@@ -39,7 +39,7 @@ function AllCVs() {
       }
     }
     getCvs();
-  }, [user.id]);
+  }, [user?.id]);
 
   const handleSearch = (event) => {
     const searchValue = event.target.value.toLowerCase();
