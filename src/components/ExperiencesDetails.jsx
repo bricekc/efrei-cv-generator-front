@@ -4,60 +4,46 @@ import { Label } from './ui/label';
 import { Button } from './ui/button';
 import PropTypes from 'prop-types';
 
-function ExperiencesDetails({ values, Input, title, buttonText }) {
+function ExperiencesDetails({ values, Input, title, buttonText, fieldname }) {
   return (
     <>
       <h2 className="text-3xl font-semibold">{title}</h2>
-      <FieldArray name="educationalExperiences">
+      <FieldArray name={fieldname}>
         {({ remove, push }) => (
           <>
             {values.map((_, index) => (
               <Card key={index} className="grid gap-2 mb-4 p-4">
-                <Label htmlFor={`educationalExperiences[${index}].name`}>
-                  Name
-                </Label>
-                <Field
-                  as={Input}
-                  name={`educationalExperiences[${index}].name`}
-                />
+                <Label htmlFor={`${fieldname}[${index}].name`}>Name</Label>
+                <Field as={Input} name={`${fieldname}[${index}].name`} />
                 <ErrorMessage
-                  name={`educationalExperiences[${index}].name`}
+                  name={`${fieldname}[${index}].name`}
                   component="div"
                   className="text-red-500"
                 />
-                <Label htmlFor={`educationalExperiences[${index}].description`}>
+                <Label htmlFor={`${fieldname}[${index}].description`}>
                   Description
                 </Label>
-                <Field
-                  as={Input}
-                  name={`educationalExperiences[${index}].description`}
-                />
+                <Field as={Input} name={`${fieldname}[${index}].description`} />
                 <ErrorMessage
-                  name={`educationalExperiences[${index}].description`}
+                  name={`${fieldname}[${index}].description`}
                   component="div"
                   className="text-red-500"
                 />
-                <Label htmlFor={`educationalExperiences[${index}].startDate`}>
+                <Label htmlFor={`${fieldname}[${index}].startDate`}>
                   Start Date
                 </Label>
-                <Field
-                  type="date"
-                  name={`educationalExperiences[${index}].startDate`}
-                />
+                <Field type="date" name={`${fieldname}[${index}].startDate`} />
                 <ErrorMessage
-                  name={`educationalExperiences[${index}].startDate`}
+                  name={`${fieldname}[${index}].startDate`}
                   component="div"
                   className="text-red-500"
                 />
-                <Label htmlFor={`educationalExperiences[${index}].endDate`}>
+                <Label htmlFor={`${fieldname}[${index}].endDate`}>
                   End Date
                 </Label>
-                <Field
-                  type="date"
-                  name={`educationalExperiences[${index}].endDate`}
-                />
+                <Field type="date" name={`${fieldname}[${index}].endDate`} />
                 <ErrorMessage
-                  name={`educationalExperiences[${index}].endDate`}
+                  name={`${fieldname}[${index}].endDate`}
                   component="div"
                   className="text-red-500"
                 />
@@ -103,6 +89,7 @@ ExperiencesDetails.propTypes = {
   Input: PropTypes.elementType.isRequired,
   title: PropTypes.string.isRequired,
   buttonText: PropTypes.string.isRequired,
+  fieldname: PropTypes.string.isRequired,
 };
 
 export default ExperiencesDetails;

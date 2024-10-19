@@ -249,6 +249,7 @@ function MyCV() {
               title="Educational Experiences"
               values={values.educationalExperiences}
               buttonText="Education"
+              fieldname="educationalExperiences"
             />
 
             <Separator className="my-8" />
@@ -258,6 +259,7 @@ function MyCV() {
               title="Professional Experiences"
               values={values.professionalExperiences}
               buttonText="Experience"
+              fieldname="professionalExperiences"
             />
 
             <Separator className="my-8" />
